@@ -14,7 +14,7 @@ export default {
         primary: "#d5bdaf",
         secondary: "#e3d5ca",
         accent: "#9ec58d",
-        wrong: "#c76c5f"
+        wrong: "#c76c5f",
       },
       fontFamily: {
         header: ["var(--font-league-spartan)"],

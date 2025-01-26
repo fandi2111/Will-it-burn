@@ -1,8 +1,9 @@
+"use server";
+
 import OpenAI from "openai";
 import { zodResponseFormat } from "openai/helpers/zod";
 import { Explanation, Question } from "./schema";
 import { ExplanationType, QuestionType } from "./types";
-import { z } from "zod";
 
 export async function getQuestion(topic: string) {
   const openai = new OpenAI({
@@ -31,10 +32,7 @@ export async function getQuestion(topic: string) {
 
 export async function getExplanation(question: QuestionType, answer: string) {
   const openai = new OpenAI({
-    // apiKey: process.env.OPENAI_KEY,
-    apiKey:
-      "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",
-    dangerouslyAllowBrowser: true,
+    apiKey: process.env.OPENAI_KEY,
   });
 
   const text = await openai.beta.chat.completions.parse({
