@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { questions } from "../data/data";
+import Link from "next/link";
 
 export default function Home() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -11,7 +12,8 @@ export default function Home() {
 
   const handleAnswerClick = (answerIndex: number) => {
     const isCorrect =
-      answerIndex === questions[currentTopic - 1][currentQuestionIndex].correctAnswer;
+      answerIndex ===
+      questions[currentTopic - 1][currentQuestionIndex].correctAnswer;
 
     if (isCorrect) {
       setScore(score + 1);
@@ -38,56 +40,61 @@ export default function Home() {
   const isQuizComplete = currentTopic > Object.keys(questions).length;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-bg p-4">
-      <h1 className="text-2xl font-bold mb-6">
-        {isQuizComplete ? "Quiz Completed!" : `Topic ${currentTopic}`}
-      </h1>
-      {!isQuizComplete ? (
-        <div className="bg-bg shadow-md rounded p-4 w-full max-w-md">
-          <h2 className="text-xl font-medium mb-4">
-            {questions[currentTopic - 1][currentQuestionIndex].question}
-          </h2>
-          <div className="flex flex-col gap-3">
-            {questions[currentTopic - 1][currentQuestionIndex].answers.map(
-              (answer, index) => (
-                <button
-                  key={index}
-                  className={`py-2 px-4 border rounded transition-colors ${
-                    selectedAnswer === index
-                      ? index ===
-                        questions[currentTopic - 1][currentQuestionIndex].correctAnswer
-                        ? "bg-accent text-fg"
-                        : "bg-wrong text-fg"
-                      : "bg-secondary text-fg hover:bg-primary"
-                  }`}
-                  onClick={() => handleAnswerClick(index)}
-                  disabled={selectedAnswer !== null}
-                >
-                  {answer}
-                </button>
-              )
-            )}
+    <main>
+      <div className="flex min-h-screen flex-col items-center justify-center bg-bg p-4">
+        <h1 className="mb-6 text-2xl font-bold">
+          {isQuizComplete ? "Quiz Completed!" : `Topic ${currentTopic}`}
+        </h1>
+        {!isQuizComplete ? (
+          <div className="w-full max-w-md rounded bg-bg p-4 shadow-md">
+            <h2 className="mb-4 text-xl font-medium">
+              {questions[currentTopic - 1][currentQuestionIndex].question}
+            </h2>
+            <div className="flex flex-col gap-3">
+              {questions[currentTopic - 1][currentQuestionIndex].answers.map(
+                (answer, index) => (
+                  <button
+                    key={index}
+                    className={`rounded border px-4 py-2 transition-colors ${
+                      selectedAnswer === index
+                        ? index ===
+                          questions[currentTopic - 1][currentQuestionIndex]
+                            .correctAnswer
+                          ? "bg-accent text-fg"
+                          : "bg-wrong text-fg"
+                        : "bg-secondary text-fg hover:bg-primary"
+                    }`}
+                    onClick={() => handleAnswerClick(index)}
+                    disabled={selectedAnswer !== null}
+                  >
+                    {answer}
+                  </button>
+                ),
+              )}
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className="bg-bg shadow-md rounded p-4 w-full max-w-md">
-          <h2 className="text-xl font-medium mb-4">
-            Your total score: {score}
-          </h2>
-          <button
-            className="py-2 px-4 bg-secondary text-fg rounded hover:bg-primary"
-            onClick={() => {
-              setCurrentTopic(1); // Restart from topic 1
-              setCurrentQuestionIndex(0);
-              setScore(0);
-              setCorrectAnswers(0);
-            }}
-          >
-            Restart Quiz
-          </button>
-        </div>
-      )}
-    </div>
+        ) : (
+          <div className="w-full max-w-md rounded bg-bg p-4 shadow-md">
+            <h2 className="mb-4 text-xl font-medium">
+              Your total score: {score}
+            </h2>
+            <button
+              className="rounded bg-secondary px-4 py-2 text-fg hover:bg-primary"
+              onClick={() => {
+                setCurrentTopic(1); // Restart from topic 1
+                setCurrentQuestionIndex(0);
+                setScore(0);
+                setCorrectAnswers(0);
+              }}
+            >
+              Restart Quiz
+            </button>
+          </div>
+        )}
+      </div>
+      <div>
+        <Link href="/test">Begin</Link>
+      </div>
+    </main>
   );
 }
-

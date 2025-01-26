@@ -15,6 +15,7 @@ services:
         - path: .
           target: /app
           action: sync
+    env_file: .env
 
 
 volumes:
